@@ -1035,7 +1035,10 @@
         openBtn.innerHTML = stampImageHTML;
 
 
-        const imgContainers = ['.js-product-slide', '.product-image-column', '.js-swiper-product', '[data-store^="product-image-"]', '.product__media-wrapper', '.product-gallery__media', '.product__media', '.product-image-main', '.product-media-container', '[data-media-id]', '.product__media-item', '.product-gallery', '.product-single__media', '.media-gallery'];
+        // .js-swiper-product (container estavel do carrossel) vem ANTES de .js-product-slide:
+        // ao trocar de variante/cor o Swiper troca os slides, e um botao preso a um slide
+        // especifico fica fora de vista. Preso ao container do swiper, o selo fica fixo.
+        const imgContainers = ['.js-swiper-product', '.js-product-slide', '.product-image-column', '[data-store^="product-image-"]', '.product__media-wrapper', '.product-gallery__media', '.product__media', '.product-image-main', '.product-media-container', '[data-media-id]', '.product__media-item', '.product-gallery', '.product-single__media', '.media-gallery'];
 
         function tryPlaceTriggerBtn() {
             // 1ª prioridade: container que tenha <img> dentro (evita cair em slide de vídeo)
