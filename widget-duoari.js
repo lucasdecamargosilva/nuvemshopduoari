@@ -1250,6 +1250,25 @@
                 }
             }
 
+            // Produto MULTI-VARIANTE (cada cor tem imagem propria): manda SO a imagem da
+            // variante selecionada (slide ativo), senao as fotos das OUTRAS cores entram como
+            // referencia e o gerador mistura variantes (ex: escolheu azul, gerou preto).
+            // So dispara quando ha 2+ imagens de variante distintas no data-variants.
+            try {
+                const dvEl = document.querySelector('[data-variants]');
+                if (dvEl && activeImg) {
+                    const variants = JSON.parse(dvEl.getAttribute('data-variants'));
+                    const variantImgIds = {};
+                    variants.forEach(v => { if (v.image != null) variantImgIds[String(v.image)] = 1; });
+                    if (Object.keys(variantImgIds).length >= 2) {
+                        let activeOnly = resolveImgSrc(activeImg);
+                        if (activeOnly && !activeOnly.includes('data:image')) {
+                            return [upgradeImgUrl(activeOnly)];
+                        }
+                    }
+                }
+            } catch (e) {}
+
             return uniqueImgs.slice(0, 4);
         }
 
