@@ -1365,6 +1365,25 @@
             modal.style.display = 'none';
             unlockBodyScroll();
             try { stopFakeBuy(); } catch (e) {}
+            // Volta pra tela inicial do provador ao fechar. Se o cliente fechou DEPOIS
+            // de uma prova, ao reabrir (ex: pra testar outra variante/cor do produto)
+            // ele ve a tela de upload, nao o resultado antigo preso. Mesmo reset do
+            // botao "tirar outra foto" (retryBtn).
+            try {
+                document.getElementById('q-step-result').style.display = 'none';
+                photoStep.style.display = 'flex';
+                var _card = document.querySelector('.q-card-ia');
+                if (_card) _card.classList.remove('is-result');
+                userPhoto = null;
+                pixPaymentId = null;
+                if (preImg) preImg.style.display = 'none';
+                if (facePlaceholder) facePlaceholder.style.display = 'flex';
+                // Limpa o value dos inputs de arquivo: o evento change so dispara se o
+                // arquivo for diferente do anterior. Sem isso, reabrir e escolher a MESMA
+                // foto nao dispara handlePhotoSelected -> "nao deixa enviar outra foto".
+                try { cameraInput.value = ''; galleryInput.value = ''; } catch (e) {}
+                if (typeof checkFields === 'function') checkFields();
+            } catch (e) {}
         }
 
 
@@ -1402,6 +1421,8 @@
             pixPaymentId = null;
             preImg.style.display = 'none';
             if (facePlaceholder) facePlaceholder.style.display = 'flex';
+            // limpa inputs de arquivo p/ o change disparar ao reescolher a mesma foto
+            try { cameraInput.value = ''; galleryInput.value = ''; } catch (e) {}
             checkFields();
         };
 
