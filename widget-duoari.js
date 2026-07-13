@@ -1,4 +1,6 @@
 (function () {
+    // ── KILL SWITCH: provador da Duoari desligado no front (reversível). Backend intacto. ──
+    var PL_PROVADOR_OFF = true; try { window.PL_PROVADOR_OFF = true; } catch (e) {}
     function isValidBRPhone(nums) {
         function setErr(msg) {
             var el = document.getElementById('q-phone-error');
@@ -20,6 +22,7 @@
     (function() {
         function injectPLBadge() {
             try {
+                if (PL_PROVADOR_OFF) return;
                 if (document.querySelector('.pl-seo-badge')) return;
                 var path = window.location.pathname;
                 var isProduct = path.includes('/produto/') || path.includes('/produtos/') || path.includes('/products/') || path.includes('/p/') || document.querySelector('meta[property="og:type"][content="product"]');
@@ -2003,7 +2006,7 @@ const fd = new FormData();
     // ─── EXECUTA APENAS EM PÁGINAS DE PRODUTO ────────────────────────────────────
     const isProductPage = window.location.pathname.includes('/products/') || window.location.pathname.includes('/product/') || window.location.pathname.includes('/produtos/') || window.location.pathname.includes('/produto/') || window.location.pathname.includes('/p/') || window.location.pathname.includes('preview.html') || document.querySelector('meta[property="og:type"][content="product"]');
 
-    if (isProductPage) {
+    if (isProductPage && !PL_PROVADOR_OFF) {
         if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
         else init();
     }
