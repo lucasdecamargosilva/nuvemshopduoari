@@ -1,6 +1,6 @@
 (function () {
     // ── KILL SWITCH: provador da Duoari desligado no front (reversível). Backend intacto. ──
-    var PL_PROVADOR_OFF = true; try { window.PL_PROVADOR_OFF = true; } catch (e) {}
+    var PL_PROVADOR_OFF = false; try { window.PL_PROVADOR_OFF = false; } catch (e) {}
     function isValidBRPhone(nums) {
         function setErr(msg) {
             var el = document.getElementById('q-phone-error');
